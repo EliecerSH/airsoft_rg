@@ -13,19 +13,19 @@ function Category_panel(){
             </h2>
             <div className='flex flex-wrap justify-center p-2'>
                 <a href="#">
-                    <img src={category1} alt="" className='h-50 hover:scale-105 transition'/>
+                    <img src={category1} alt="" className='h-55 hover:scale-105 transition'/>
                 </a>
                 <a href="#">
-                    <img src={category2} alt="" className='h-50 hover:scale-105 transition'/>
+                    <img src={category2} alt="" className='h-55 hover:scale-105 transition'/>
                 </a>
                 <a href="#">
-                    <img src={category3} alt="" className='h-50 hover:scale-105 transition'/>
+                    <img src={category3} alt="" className='h-55 hover:scale-105 transition'/>
                 </a>
                 <a href="#">
-                    <img src={category4} alt="" className='h-50 hover:scale-105 transition'/>
+                    <img src={category4} alt="" className='h-55 hover:scale-105 transition'/>
                 </a>
                 <a href="#">
-                    <img src={category5} alt="" className='h-50 hover:scale-105 transition'/>
+                    <img src={category5} alt="" className='h-55 hover:scale-105 transition'/>
                 </a>
             </div>
         </div>

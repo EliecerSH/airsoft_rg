@@ -1,19 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { productos } from "../Productos.js";
+import { CarritoContext } from "../context/CarritoContext";
 
 function Productos() {
   const [search, setSearch] = useState("");
   const [filtroTipo, setFiltroTipo] = useState("todos");
   const [filtroPrecio, setFiltroPrecio] = useState("todos");
-
-  const agregarCarrito = (id) => {
-    console.log(`Producto ${id} agregado al carrito`);
-  };
-
-  const irADetalle = (id) => {
-    console.log(`Ir a producto con id: ${id}`);
-  };
-
+  const { agregarCarrito } = useContext(CarritoContext);
 
   const tipos = ["todos", ...new Set(productos.map((p) => p.tipo))];
   const precios = [
@@ -23,20 +16,16 @@ function Productos() {
     { label: "> $150.000", value: "mayor150" },
   ];
 
-
   const productosFiltrados = productos.filter((prod) => {
-
-    const coincideBusqueda = prod.nombre.toLowerCase().includes(search.toLowerCase());
-
-
+    const coincideBusqueda = prod.nombre
+      .toLowerCase()
+      .includes(search.toLowerCase());
     const coincideTipo = filtroTipo === "todos" || prod.tipo === filtroTipo;
-
-
     let coincidePrecio = true;
     if (filtroPrecio === "menor80") coincidePrecio = prod.precio < 80000;
-    if (filtroPrecio === "entre80y150") coincidePrecio = prod.precio >= 80000 && prod.precio <= 150000;
+    if (filtroPrecio === "entre80y150")
+      coincidePrecio = prod.precio >= 80000 && prod.precio <= 150000;
     if (filtroPrecio === "mayor150") coincidePrecio = prod.precio > 150000;
-
     return coincideBusqueda && coincideTipo && coincidePrecio;
   });
 
@@ -50,35 +39,29 @@ function Productos() {
           onChange={(e) => setSearch(e.target.value)}
           className="border border-gray-300 rounded-lg p-2 flex-1"
         />
-
         <div className="flex gap-2 flex-wrap">
-          <div className="relative">
-            <select
-              value={filtroTipo}
-              onChange={(e) => setFiltroTipo(e.target.value)}
-              className="border border-gray-300 rounded-lg p-2 bg-white cursor-pointer"
-            >
-              {tipos.map((tipo) => (
-                <option key={tipo} value={tipo}>
-                  {tipo.charAt(0).toUpperCase() + tipo.slice(1)}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <div className="relative">
-            <select
-              value={filtroPrecio}
-              onChange={(e) => setFiltroPrecio(e.target.value)}
-              className="border border-gray-300 rounded-lg p-2 bg-white cursor-pointer"
-            >
-              {precios.map((p) => (
-                <option key={p.value} value={p.value}>
-                  {p.label}
-                </option>
-              ))}
-            </select>
-          </div>
+          <select
+            value={filtroTipo}
+            onChange={(e) => setFiltroTipo(e.target.value)}
+            className="border border-gray-300 rounded-lg p-2 bg-white cursor-pointer"
+          >
+            {tipos.map((tipo) => (
+              <option key={tipo} value={tipo}>
+                {tipo.charAt(0).toUpperCase() + tipo.slice(1)}
+              </option>
+            ))}
+          </select>
+          <select
+            value={filtroPrecio}
+            onChange={(e) => setFiltroPrecio(e.target.value)}
+            className="border border-gray-300 rounded-lg p-2 bg-white cursor-pointer"
+          >
+            {precios.map((p) => (
+              <option key={p.value} value={p.value}>
+                {p.label}
+              </option>
+            ))}
+          </select>
         </div>
       </div>
 
@@ -92,7 +75,6 @@ function Productos() {
               src={prod.img}
               alt={prod.nombre}
               className="p-5 cursor-pointer"
-              onClick={() => irADetalle(prod.id)}
             />
             <div className="p-4">
               <h3 className="text-lg font-bold">{prod.nombre}</h3>
@@ -101,7 +83,7 @@ function Productos() {
                 ${prod.precio} CLP
               </p>
               <button
-                onClick={() => agregarCarrito(prod.id)}
+                onClick={() => agregarCarrito(prod)}
                 className="mt-4 w-full bg-neutral-700 hover:bg-neutral-900 text-white py-2 rounded-lg transition"
               >
                 Comprar
@@ -109,16 +91,12 @@ function Productos() {
             </div>
           </div>
         ))}
-
-        {productosFiltrados.length === 0 && (
-          <p className="col-span-full text-center text-gray-500">
-            No se encontraron productos
-          </p>
-        )}
       </div>
     </div>
   );
 }
 
 export default Productos;
+
+
 

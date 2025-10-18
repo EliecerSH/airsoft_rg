@@ -1,13 +1,12 @@
-import img_1 from '../assets/img_01.jpg';
+import img_01 from '../assets/img_01.jpg';
 import Productos from '../component/Productos.jsx';
-import '../script_producto.js';
 
 function Armas_pages(){
 
     return(
         <div>
             <div className="relative">
-                <img src={img_1} alt="" className='w-full h-[250px] object-cover brightness-75'/>
+                <img src={img_01} alt="" className='w-full h-[250px] object-cover brightness-75'/>
                 <div className='absolute inset-0 flex flex-col justify-center items-center text-center px-6'>
                     <h2 className='text-4xl font-extrabold text-white drop-shadow-lg'>
                         Tu tienda online de Airsoft
