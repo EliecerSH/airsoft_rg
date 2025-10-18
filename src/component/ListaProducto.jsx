@@ -20,7 +20,7 @@ function ListaProductos({ filas = 1, tipo = "todos" }) {
         {tipo === "todos" ? "Productos" : tipo}
       </h2>
 
-      <div className="grid gap-6 grid-cols-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         {productosMostrar.map((prod) => (
           <div
             key={prod.id}
