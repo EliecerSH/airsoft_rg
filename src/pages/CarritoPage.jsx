@@ -1,8 +1,6 @@
 import React from "react";
 import Carrito from "../component/Carrito";
 import ListaProductos from "../component/ListaProducto";
-
-
 function CarritoPage() {
     
   return (
