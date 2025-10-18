@@ -1,5 +1,6 @@
 import img_1 from '../assets/img_01.jpg';
 import Category_panel from '../component/Category_panel';
+import ListaProductos from '../component/ListaProducto';
 
 
 function Home(){
@@ -19,6 +20,9 @@ function Home(){
                 </div>
             </div>
             <Category_panel></Category_panel>
+            <div>
+                <ListaProductos filas={1} tipo="todos" />
+            </div>
     </div>
     )
 
