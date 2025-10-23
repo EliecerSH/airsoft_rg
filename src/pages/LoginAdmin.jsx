@@ -3,8 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
 import icon01 from "../assets/icon_01.png";
 
-function Login() {
-  const { login } = useContext(UserContext);
+function LoginAdmin() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -13,16 +12,10 @@ function Login() {
   const handleLogin = (e) => {
     e.preventDefault();
 
-    const storedUser = JSON.parse(localStorage.getItem("user_registrado"));
-    if (!storedUser) {
-      setMensaje("⚠️ No hay usuarios registrados");
-      return;
-    }
 
-    if (storedUser.email === email && storedUser.password === password) {
-      login(storedUser);
+    if (email === "admin@gmail.com" && password === "123456") {
       setMensaje("✅ Inicio de sesión exitoso");
-      navigate("/home");
+      navigate("/homeAdmin");
     } else {
       setMensaje("❌ Credenciales incorrectas");
     }
@@ -31,7 +24,7 @@ function Login() {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 text-gray-800 font-sans">
       <img src={icon01} alt="Logo" className="w-20 h-20 mb-4" />
-      <h2 className="text-3xl font-bold mb-6">Airsoft Rock Galactic</h2>
+      <h2 className="text-3xl font-bold mb-6">Airsoft Rock Galactic Admin</h2>
 
       <div className="w-full max-w-md bg-white rounded-xl shadow-lg p-6">
         <h3 className="font-semibold text-lg mb-4">Inicio de Sesión</h3>
@@ -68,15 +61,9 @@ function Login() {
           </button>
 
           <p className="text-center text-sm">
-            ¿No tienes cuenta?{" "}
-            <Link to="/registro" className="text-blue-600 hover:underline">
-              Regístrate
-            </Link>
-          </p>
-          <p className="text-center text-sm">
             Iniciar como{" "}
-            <Link to="/loginAdmin" className="text-blue-600 hover:underline">
-              Admin
+            <Link to="/login" className="text-blue-600 hover:underline">
+              Usuario
             </Link>
           </p>
           <p className="text-center text-red-500">{mensaje}</p>
@@ -86,5 +73,5 @@ function Login() {
   );
 }
 
-export default Login;
+export default LoginAdmin;
 

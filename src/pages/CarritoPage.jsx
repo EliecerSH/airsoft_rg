@@ -6,7 +6,7 @@ function CarritoPage() {
   return (
     <div className="p-6">
       <Carrito></Carrito>
-      <ListaProductos filas={1} tipo="todos" />
+      <ListaProductos filas={1} tipo="rifle" />
     </div>
   );
 }

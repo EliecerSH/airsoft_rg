@@ -1,12 +1,11 @@
-import React, { useState, useContext } from "react";
-import { productos } from "../Productos.js";
-import { CarritoContext } from "../context/CarritoContext";
+import React, { useState } from "react";
+import { productos } from "../data/Productos.js";
+import ProductoCard from "../component/ProductoCard";
 
 function Productos() {
   const [search, setSearch] = useState("");
   const [filtroTipo, setFiltroTipo] = useState("todos");
   const [filtroPrecio, setFiltroPrecio] = useState("todos");
-  const { agregarCarrito } = useContext(CarritoContext);
 
   const tipos = ["todos", ...new Set(productos.map((p) => p.tipo))];
   const precios = [
@@ -67,29 +66,7 @@ function Productos() {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         {productosFiltrados.map((prod) => (
-          <div
-            key={prod.id}
-            className="bg-white rounded-xl shadow-lg overflow-hidden hover:scale-105 transition"
-          >
-            <img
-              src={prod.img}
-              alt={prod.nombre}
-              className="p-5 cursor-pointer"
-            />
-            <div className="p-4">
-              <h3 className="text-lg font-bold">{prod.nombre}</h3>
-              <p className="text-sm text-gray-600 mt-1 h-16">{prod.desc}</p>
-              <p className="mt-5 text-center text-xl font-mono font-bold text-neutral-700">
-                ${prod.precio} CLP
-              </p>
-              <button
-                onClick={() => agregarCarrito(prod)}
-                className="mt-4 w-full bg-neutral-700 hover:bg-neutral-900 text-white py-2 rounded-lg transition"
-              >
-                Comprar
-              </button>
-            </div>
-          </div>
+          <ProductoCard key={prod.id} producto={prod} />
         ))}
       </div>
     </div>
@@ -97,6 +74,7 @@ function Productos() {
 }
 
 export default Productos;
+
 
 
 

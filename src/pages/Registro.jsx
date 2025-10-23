@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import icon01 from "../assets/icon_01.png";
 
 function Registro() {
@@ -87,6 +87,10 @@ function Registro() {
           >
             Registrar
           </button>
+          <p className="text-center text-sm">
+            ¿ya tienes una cuenta?{" "}
+            <Link to='/login' className="text-blue-600 hover:underline">inicia seccion</Link>
+          </p>
           <p className="text-center text-green-600">{mensaje}</p>
         </form>
       </div>
