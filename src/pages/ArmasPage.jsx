@@ -1,7 +1,8 @@
 import img_01 from '../assets/img_01.jpg';
 import Productos from '../component/Productos.jsx';
 
-function Armas_pages(){
+
+function ArmasPage(){
 
     return(
         <div>
@@ -27,4 +28,4 @@ function Armas_pages(){
     )
 }
 
-export default Armas_pages;
+export default ArmasPage;

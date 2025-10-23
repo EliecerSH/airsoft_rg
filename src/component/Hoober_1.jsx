@@ -4,11 +4,15 @@ import { Routes, Route, Link, useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { CarritoContext } from "../context/CarritoContext";
 import { UserContext } from "../context/UserContext";
-import Armas_pages from "../pages/Armas_page";
 import Home from "../pages/Home";
+import ArmasPage from "../pages/ArmasPage";
 import CarritoPage from "../pages/CarritoPage";
 import Login from "../pages/login";
 import Registro from "../pages/Registro";
+import LoginAdmin from "../pages/loginAdmin";
+import AdminPage from "../pages/AdminPage";
+import Productos from "./Productos";
+import { ArmaPage } from "../pages/ArmaPage";
 
 function Hoober_1() {
   const navigate = useNavigate();
@@ -28,7 +32,7 @@ function Hoober_1() {
         </Link>
 
         <div className="flex items-center space-x-3">
-          {/* Carrito */}
+          
           <button onClick={() => navigate("/carrito")} className="relative">
             <img src={icon_car} alt="carrito" width="30px" />
             {totalItems > 0 && (
@@ -38,7 +42,6 @@ function Hoober_1() {
             )}
           </button>
 
-          {/* Sesión */}
           {user ? (
             <div className="flex items-center space-x-2">
               <span className="font-semibold text-gray-800">{user.nombre}</span>
@@ -68,7 +71,6 @@ function Hoober_1() {
         </div>
       </div>
 
-      {/* Navbar */}
       <nav className="bg-gray-200">
         <ul className="flex justify-center space-x-8 py-2 text-sm font-medium uppercase tracking-wide">
           <li>
@@ -79,19 +81,26 @@ function Hoober_1() {
           <li><a href="#" className="hover:text-neutral-700">Vestimenta</a></li>
           <li><a href="#" className="hover:text-neutral-700">Munición</a></li>
           <li><a href="#" className="hover:text-neutral-700">Extras</a></li>
-          <li><a href="#" className="hover:text-neutral-700">Contacto</a></li>
+          <li>
+            <Link to="/" className="hover:text-neutral-700">
+              Contacto
+            </Link>
+          </li>
         </ul>
       </nav>
 
-      {/* Rutas */}
       <div className="flex-grow">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/home" element={<Home />} />
-          <Route path="/armas" element={<Armas_pages />} />
+          <Route path="/armas" element={<ArmasPage />} />
           <Route path="/carrito" element={<CarritoPage />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/loginAdmin" element={<LoginAdmin />} />
           <Route path="/registro" element={<Registro />} />
+          <Route path="/homeAdmin" element={<AdminPage />} />
+          <Route path="/" element={<Productos />} />
+          <Route path="/arma/:id" element={<ArmaPage />} />
         </Routes>
       </div>
     </div>
