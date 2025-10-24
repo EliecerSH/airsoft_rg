@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { useParams, Link } from "react-router-dom";
 import { productos } from "../data/Productos.js";
 import { CarritoContext } from "../context/CarritoContext";
+import { useNavigate } from "react-router-dom";
 import ListaProductos from "../component/ListaProducto.jsx";
 
 // Barra de estadísticas mejorada con gradiente suave
@@ -31,6 +32,7 @@ export function ArmaPage() {
   const { id } = useParams();
   const producto = productos.find((p) => String(p.id) === String(id));
   const { agregarCarrito } = useContext(CarritoContext);
+  const navigate = useNavigate();
 
   if (!producto) {
     return (
@@ -66,8 +68,16 @@ export function ArmaPage() {
             ${producto.precio.toLocaleString()} CLP
           </div>
           <button
+            onClick={() => {agregarCarrito(producto); 
+                            navigate("/pago")}
+            }
+            className="w-full mt-1.5 bg-neutral-800 hover:bg-neutral-900 text-white py-2.5 rounded-lg text-lg font-medium transition"
+          >
+            Comprar
+          </button>
+          <button
             onClick={() => agregarCarrito(producto)}
-            className="w-full bg-neutral-800 hover:bg-neutral-900 text-white py-2.5 rounded-lg text-lg font-medium transition"
+            className="w-full mt-1.5 bg-neutral-800 hover:bg-neutral-900 text-white py-2.5 rounded-lg text-lg font-medium transition"
           >
             Agregar al carrito
           </button>

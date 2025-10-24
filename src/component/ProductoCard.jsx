@@ -29,9 +29,20 @@ export default function ProductoCard({ producto }) {
             e.stopPropagation();
             agregarCarrito(producto);
           }}
-          className="mt-5 w-full bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 text-white font-medium py-2 rounded-xl transition"
+          className="mt-5 w-full bg-neutral-800 hover:bg-red-900 text-white font-medium py-2 rounded-xl transition"
         >
           Agregar al carrito
+        </button>
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            agregarCarrito(producto);
+            navigate(`/pago`)
+
+          }}
+          className="mt-2 w-full bg-neutral-800 hover:bg-red-900 text-white font-medium py-2 rounded-xl transition"
+        >
+          Comprar
         </button>
       </div>
     </div>
