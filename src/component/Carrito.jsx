@@ -1,13 +1,15 @@
 import React, { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import { CarritoContext } from "../context/CarritoContext";
 
 function Carrito() {
   const { carrito, eliminarDelCarrito, vaciarCarrito } = useContext(CarritoContext);
+  const navigate = useNavigate();
 
   const total = carrito.reduce((acc, item) => acc + item.precio * item.cantidad, 0);
 
   return (
-    <div className="mt-10 p-6 rounded-2xl shadow-xl bg-gradient-to-b from-gray-50 to-gray-100 max-w mx-auto">
+    <div className="mt-10 p-6 rounded-2xl shadow-xl bg-gradient-to-b from-gray-50 to-gray-100 max-w-3xl mx-auto">
       <h2 className="text-3xl font-extrabold mb-6 text-center text-gray-800">🛒 Tu Carrito</h2>
 
       {carrito.length === 0 ? (
@@ -28,7 +30,9 @@ function Carrito() {
                   />
                   <div>
                     <p className="font-semibold text-gray-800">{item.nombre}</p>
-                    <p className="text-sm text-gray-500">{item.cantidad} x ${item.precio.toLocaleString()} CLP</p>
+                    <p className="text-sm text-gray-500">
+                      {item.cantidad} x ${item.precio.toLocaleString()} CLP
+                    </p>
                   </div>
                 </div>
                 <button
@@ -41,16 +45,26 @@ function Carrito() {
             ))}
           </ul>
 
-          <div className="mt-6 flex flex-col items-center">
+          <div className="mt-8 flex flex-col items-center">
             <p className="text-2xl font-bold text-gray-900">
               Total: ${total.toLocaleString()} CLP
             </p>
-            <button
-              onClick={vaciarCarrito}
-              className="mt-4 bg-gradient-to-r from-gray-700 to-gray-900 hover:from-gray-900 hover:to-black text-white px-6 py-2 rounded-2xl font-semibold transition-all"
-            >
-              Vaciar Carrito
-            </button>
+
+            <div className="flex gap-4 mt-4">
+              <button
+                onClick={vaciarCarrito}
+                className="mt-2 w-30 bg-neutral-800 hover:bg-red-900 text-white font-medium py-2 rounded-xl transition"
+              >
+                Vaciar
+              </button>
+
+              <button
+                onClick={() => navigate("/pago")}
+                className="mt-2 w-30 bg-neutral-800 hover:bg-emerald-600 text-white font-medium py-2 rounded-xl transition"
+              >
+                Comprar
+              </button>
+            </div>
           </div>
         </>
       )}
@@ -59,5 +73,6 @@ function Carrito() {
 }
 
 export default Carrito;
+
 
 

@@ -13,6 +13,7 @@ import LoginAdmin from "../pages/loginAdmin";
 import AdminPage from "../pages/AdminPage";
 import Productos from "./Productos";
 import { ArmaPage } from "../pages/ArmaPage";
+import PagoPage from "../pages/PagoPage";
 
 function Hoober_1() {
   const navigate = useNavigate();
@@ -101,6 +102,7 @@ function Hoober_1() {
           <Route path="/homeAdmin" element={<AdminPage />} />
           <Route path="/" element={<Productos />} />
           <Route path="/arma/:id" element={<ArmaPage />} />
+          <Route path="/pago" element={<PagoPage />} />
         </Routes>
       </div>
     </div>
