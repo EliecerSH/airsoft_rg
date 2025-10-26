@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import Input from "./Input";
 import { CarritoContext } from "../context/CarritoContext";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export default function PagoForm() {
   const navigate = useNavigate();
@@ -48,7 +49,7 @@ export default function PagoForm() {
     localStorage.setItem("compras", JSON.stringify(comprasPrevias));
 
     // Confirmación visual
-    alert("✅ Pago realizado con éxito. ¡Gracias por tu compra!");
+    toast.success("Pago realizado con éxito. ¡Gracias por tu compra!");
 
     // Vaciar carrito y volver al inicio
     vaciarCarrito();

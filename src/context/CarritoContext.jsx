@@ -1,4 +1,5 @@
 import React, { createContext, useState, useEffect } from "react";
+import { toast } from "react-toastify";
 
 export const CarritoContext = createContext();
 
@@ -27,7 +28,7 @@ export function CarritoProvider({ children }) {
     } else {
       setCarrito([...carrito, { ...producto, cantidad: 1 }]);
     }
-    alert(`${producto.nombre} agregado al carrito`);
+    toast.success(`${producto.nombre} agregado al carrito`);
   };
 
   const eliminarDelCarrito = (id) => {
