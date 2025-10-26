@@ -1,4 +1,4 @@
-// component/AdminProductos.jsx
+// component/AdminProductos.jsx - VERSION REDISEÑADA
 import React, { useState, useEffect } from 'react';
 import {
   obtenerTodosProductos,
@@ -130,39 +130,51 @@ export default function AdminProductos() {
     setMostrarModal(true);
   };
 
+  const obtenerColorStock = (cantidad) => {
+    if (cantidad < 5) return 'bg-red-100 text-red-700 border-red-200';
+    if (cantidad < 15) return 'bg-orange-100 text-orange-700 border-orange-200';
+    return 'bg-green-100 text-green-700 border-green-200';
+  };
+
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <div>
-          <h1 className="text-3xl font-bold text-gray-800">Gestión de Productos</h1>
-          <p className="text-gray-600 mt-1">Administra el catálogo de armas de airsoft</p>
+    <div className="space-y-8">
+      {/* Header con Glassmorphism */}
+      <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-white/20 p-8">
+        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between">
+          <div>
+            <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+              Gestión de Productos
+            </h1>
+            <p className="text-gray-600 mt-2 text-lg">Administra el catálogo de armas de airsoft</p>
+          </div>
+          <button
+            onClick={abrirModal}
+            className="mt-6 lg:mt-0 px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold rounded-2xl shadow-2xl transition-all duration-300 transform hover:scale-105 flex items-center gap-3"
+          >
+            <span className="text-2xl">+</span>
+            <span>Nuevo Producto</span>
+          </button>
         </div>
-        <button
-          onClick={abrirModal}
-          className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg shadow-md transition-colors flex items-center gap-2"
-        >
-          <span className="text-xl">+</span>
-          Nuevo Producto
-        </button>
       </div>
 
-      {/* Filtros */}
-      <div className="bg-white rounded-xl shadow-md p-6">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="md:col-span-2">
-            <input
-              type="text"
-              placeholder="🔍 Buscar productos por nombre, descripción o tipo..."
-              value={busqueda}
-              onChange={manejarBusqueda}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
-            />
+      {/* Filtros Mejorados */}
+      <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-white/20 p-6">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
+          <div className="lg:col-span-3">
+            <div className="relative">
+              <input
+                type="text"
+                placeholder="🔍 Buscar productos por nombre, descripción o tipo..."
+                value={busqueda}
+                onChange={manejarBusqueda}
+                className="w-full px-6 py-4 border-2 border-gray-200 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none bg-white/50 backdrop-blur-sm text-lg transition-all duration-300"
+              />
+            </div>
           </div>
           <select
             value={filtroCategoria}
             onChange={manejarFiltroCategoria}
-            className="px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+            className="px-6 py-4 border-2 border-gray-200 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none bg-white/50 backdrop-blur-sm text-lg transition-all duration-300"
           >
             <option value="">Todas las categorías</option>
             {categorias.map(cat => (
@@ -170,9 +182,9 @@ export default function AdminProductos() {
             ))}
           </select>
         </div>
-        <div className="mt-4 flex justify-between items-center">
-          <p className="text-sm text-gray-600">
-            Mostrando <span className="font-semibold">{productos.length}</span> productos
+        <div className="mt-6 flex justify-between items-center">
+          <p className="text-lg text-gray-600">
+            Mostrando <span className="font-bold text-blue-600">{productos.length}</span> productos
           </p>
           <button
             onClick={() => {
@@ -180,96 +192,98 @@ export default function AdminProductos() {
               setFiltroCategoria('');
               cargarProductos();
             }}
-            className="text-sm text-blue-600 hover:text-blue-700 font-medium"
+            className="px-6 py-3 text-blue-600 hover:text-blue-700 font-semibold rounded-xl hover:bg-blue-50 transition-all duration-300 flex items-center gap-2"
           >
+            <span>🔄</span>
             Limpiar filtros
           </button>
         </div>
       </div>
 
-      {/* Tabla de Productos */}
-      <div className="bg-white rounded-xl shadow-md overflow-hidden">
+      {/* Tabla de Productos Mejorada */}
+      <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-white/20 overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full">
-            <thead className="bg-gray-50 border-b border-gray-200">
+            <thead className="bg-gradient-to-r from-gray-50 to-gray-100 border-b-2 border-gray-200">
               <tr>
-                <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                <th className="px-8 py-6 text-left text-sm font-bold text-gray-700 uppercase tracking-wider">
                   Producto
                 </th>
-                <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                <th className="px-8 py-6 text-left text-sm font-bold text-gray-700 uppercase tracking-wider">
                   Categoría
                 </th>
-                <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                <th className="px-8 py-6 text-left text-sm font-bold text-gray-700 uppercase tracking-wider">
                   Precio
                 </th>
-                <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                <th className="px-8 py-6 text-left text-sm font-bold text-gray-700 uppercase tracking-wider">
                   Stock
                 </th>
-                <th className="px-6 py-4 text-right text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                <th className="px-8 py-6 text-right text-sm font-bold text-gray-700 uppercase tracking-wider">
                   Acciones
                 </th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-200">
+            <tbody className="divide-y divide-gray-100">
               {productos.length === 0 ? (
                 <tr>
-                  <td colSpan="5" className="px-6 py-12 text-center">
-                    <div className="text-gray-400 text-lg">
-                      <p className="text-4xl mb-2">📦</p>
-                      <p>No se encontraron productos</p>
+                  <td colSpan="5" className="px-8 py-16 text-center">
+                    <div className="flex flex-col items-center justify-center text-gray-400">
+                      <div className="text-6xl mb-4">📦</div>
+                      <p className="text-2xl font-semibold mb-2">No se encontraron productos</p>
+                      <p className="text-lg">Intenta con otros términos de búsqueda</p>
                     </div>
                   </td>
                 </tr>
               ) : (
                 productos.map((producto) => (
-                  <tr key={producto.id} className="hover:bg-gray-50 transition-colors">
-                    <td className="px-6 py-4">
-                      <div className="flex items-center gap-4">
+                  <tr key={producto.id} className="hover:bg-gradient-to-r from-blue-50/50 to-purple-50/50 transition-all duration-300 group">
+                    <td className="px-8 py-6">
+                      <div className="flex items-center gap-6">
                         <img
                           src={producto.img}
                           alt={producto.nombre}
-                          className="w-16 h-16 object-cover rounded-lg shadow-sm"
+                          className="w-20 h-20 object-cover rounded-2xl shadow-lg group-hover:scale-105 transition-transform duration-300"
                         />
-                        <div>
-                          <p className="font-semibold text-gray-800">{producto.nombre}</p>
-                          <p className="text-sm text-gray-500 line-clamp-1">{producto.desc}</p>
+                        <div className="min-w-0 flex-1">
+                          <p className="text-lg font-bold text-gray-800 truncate">{producto.nombre}</p>
+                          <p className="text-sm text-gray-500 line-clamp-2 mt-1">{producto.desc}</p>
                         </div>
                       </div>
                     </td>
-                    <td className="px-6 py-4">
-                      <span className="px-3 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-700 capitalize">
+                    <td className="px-8 py-6">
+                      <span className="px-4 py-2 text-sm font-bold rounded-full bg-gradient-to-r from-blue-100 to-blue-200 text-blue-700 border border-blue-200 capitalize">
                         {producto.tipo}
                       </span>
                     </td>
-                    <td className="px-6 py-4">
-                      <p className="font-bold text-gray-800">
+                    <td className="px-8 py-6">
+                      <p className="text-xl font-bold text-gray-800">
                         ${producto.precio.toLocaleString('es-CL')}
                       </p>
                     </td>
-                    <td className="px-6 py-4">
-                      <span className={`px-3 py-1 text-xs font-semibold rounded-full ${
-                        producto.cantidad < 10 ? 'bg-red-100 text-red-700' :
-                        producto.cantidad < 20 ? 'bg-yellow-100 text-yellow-700' :
-                        'bg-green-100 text-green-700'
-                      }`}>
+                    <td className="px-8 py-6">
+                      <span className={`px-4 py-2 text-sm font-bold rounded-full border ${obtenerColorStock(producto.cantidad)}`}>
                         {producto.cantidad} unidades
                       </span>
                     </td>
-                    <td className="px-6 py-4 text-right">
-                      <button
-                        onClick={() => manejarEditar(producto)}
-                        className="px-3 py-1 text-sm font-medium text-blue-600 hover:text-blue-700 hover:bg-blue-50 rounded transition-colors mr-2"
-                        title="Editar"
-                      >
-                        ✏️ Editar
-                      </button>
-                      <button
-                        onClick={() => manejarEliminar(producto.id)}
-                        className="px-3 py-1 text-sm font-medium text-red-600 hover:text-red-700 hover:bg-red-50 rounded transition-colors"
-                        title="Eliminar"
-                      >
-                        🗑️ Eliminar
-                      </button>
+                    <td className="px-8 py-6 text-right">
+                      <div className="flex justify-end gap-3">
+                        <button
+                          onClick={() => manejarEditar(producto)}
+                          className="px-6 py-3 text-sm font-bold text-blue-600 hover:text-blue-700 hover:bg-blue-50 rounded-xl transition-all duration-300 border-2 border-blue-200 hover:border-blue-300 flex items-center gap-2"
+                          title="Editar"
+                        >
+                          <span className="text-lg">✏️</span>
+                          Editar
+                        </button>
+                        <button
+                          onClick={() => manejarEliminar(producto.id)}
+                          className="px-6 py-3 text-sm font-bold text-red-600 hover:text-red-700 hover:bg-red-50 rounded-xl transition-all duration-300 border-2 border-red-200 hover:border-red-300 flex items-center gap-2"
+                          title="Eliminar"
+                        >
+                          <span className="text-lg">🗑️</span>
+                          Eliminar
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 ))
@@ -279,46 +293,47 @@ export default function AdminProductos() {
         </div>
       </div>
 
-      {/* Modal */}
+      {/* Modal Mejorado */}
       {mostrarModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-            <div className="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 flex justify-between items-center">
-              <h2 className="text-2xl font-bold text-gray-800">
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-3xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto border border-white/20">
+            <div className="sticky top-0 bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-6 flex justify-between items-center rounded-t-3xl">
+              <h2 className="text-3xl font-bold">
                 {productoEditando ? 'Editar Producto' : 'Nuevo Producto'}
               </h2>
               <button
                 onClick={cerrarModal}
-                className="text-gray-400 hover:text-gray-600 text-2xl font-bold"
+                className="text-white hover:text-gray-200 text-3xl font-bold transition-colors duration-300"
               >
                 ×
               </button>
             </div>
 
-            <form onSubmit={manejarSubmit} className="p-6 space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <form onSubmit={manejarSubmit} className="p-8 space-y-6">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">Nombre *</label>
+                  <label className="block text-lg font-bold text-gray-700 mb-3">Nombre *</label>
                   <input
                     type="text"
                     name="nombre"
                     value={formulario.nombre}
                     onChange={manejarCambioFormulario}
                     required
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+                    className="w-full px-4 py-4 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none bg-white/50 backdrop-blur-sm transition-all duration-300"
+                    placeholder="Nombre del producto"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">Categoría *</label>
+                  <label className="block text-lg font-bold text-gray-700 mb-3">Categoría *</label>
                   <select
                     name="tipo"
                     value={formulario.tipo}
                     onChange={manejarCambioFormulario}
                     required
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+                    className="w-full px-4 py-4 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none bg-white/50 backdrop-blur-sm transition-all duration-300"
                   >
-                    <option value="">Seleccionar...</option>
+                    <option value="">Seleccionar categoría...</option>
                     {categorias.map(cat => (
                       <option key={cat.id} value={cat.nombre.toLowerCase()}>{cat.nombre}</option>
                     ))}
@@ -326,7 +341,7 @@ export default function AdminProductos() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">Precio (CLP) *</label>
+                  <label className="block text-lg font-bold text-gray-700 mb-3">Precio (CLP) *</label>
                   <input
                     type="number"
                     name="precio"
@@ -334,12 +349,13 @@ export default function AdminProductos() {
                     onChange={manejarCambioFormulario}
                     required
                     min="0"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+                    className="w-full px-4 py-4 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none bg-white/50 backdrop-blur-sm transition-all duration-300"
+                    placeholder="0"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">Stock *</label>
+                  <label className="block text-lg font-bold text-gray-700 mb-3">Stock *</label>
                   <input
                     type="number"
                     name="cantidad"
@@ -347,25 +363,27 @@ export default function AdminProductos() {
                     onChange={manejarCambioFormulario}
                     required
                     min="0"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+                    className="w-full px-4 py-4 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none bg-white/50 backdrop-blur-sm transition-all duration-300"
+                    placeholder="0"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">Descripción *</label>
+                <label className="block text-lg font-bold text-gray-700 mb-3">Descripción *</label>
                 <textarea
                   name="desc"
                   value={formulario.desc}
                   onChange={manejarCambioFormulario}
                   required
                   rows="3"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none resize-none"
+                  className="w-full px-4 py-4 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none bg-white/50 backdrop-blur-sm transition-all duration-300 resize-none"
+                  placeholder="Descripción detallada del producto..."
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">URL de Imagen *</label>
+                <label className="block text-lg font-bold text-gray-700 mb-3">URL de Imagen *</label>
                 <input
                   type="text"
                   name="img"
@@ -373,73 +391,75 @@ export default function AdminProductos() {
                   onChange={manejarCambioFormulario}
                   required
                   placeholder="https://ejemplo.com/imagen.jpg"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+                  className="w-full px-4 py-4 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none bg-white/50 backdrop-blur-sm transition-all duration-300"
                 />
               </div>
 
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  Ventajas (separadas por comas)
-                </label>
-                <input
-                  type="text"
-                  name="ventajas"
-                  value={formulario.ventajas}
-                  onChange={manejarCambioFormulario}
-                  placeholder="Ligero, Preciso, Duradero"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
-                />
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div>
+                  <label className="block text-lg font-bold text-gray-700 mb-3">
+                    Ventajas (separadas por comas)
+                  </label>
+                  <input
+                    type="text"
+                    name="ventajas"
+                    value={formulario.ventajas}
+                    onChange={manejarCambioFormulario}
+                    placeholder="Ligero, Preciso, Duradero"
+                    className="w-full px-4 py-4 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none bg-white/50 backdrop-blur-sm transition-all duration-300"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-lg font-bold text-gray-700 mb-3">
+                    Desventajas (separadas por comas)
+                  </label>
+                  <input
+                    type="text"
+                    name="desventajas"
+                    value={formulario.desventajas}
+                    onChange={manejarCambioFormulario}
+                    placeholder="Pesado, Ruidoso"
+                    className="w-full px-4 py-4 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none bg-white/50 backdrop-blur-sm transition-all duration-300"
+                  />
+                </div>
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  Desventajas (separadas por comas)
-                </label>
-                <input
-                  type="text"
-                  name="desventajas"
-                  value={formulario.desventajas}
-                  onChange={manejarCambioFormulario}
-                  placeholder="Pesado, Ruidoso"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">Uso Recomendado</label>
+                <label className="block text-lg font-bold text-gray-700 mb-3">Uso Recomendado</label>
                 <input
                   type="text"
                   name="uso_recomendado"
                   value={formulario.uso_recomendado}
                   onChange={manejarCambioFormulario}
                   placeholder="CQB, Largas distancias, etc."
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+                  className="w-full px-4 py-4 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none bg-white/50 backdrop-blur-sm transition-all duration-300"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">Notas</label>
+                <label className="block text-lg font-bold text-gray-700 mb-3">Notas</label>
                 <textarea
                   name="notas"
                   value={formulario.notas}
                   onChange={manejarCambioFormulario}
                   rows="2"
                   placeholder="Información adicional sobre el producto..."
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none resize-none"
+                  className="w-full px-4 py-4 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none bg-white/50 backdrop-blur-sm transition-all duration-300 resize-none"
                 />
               </div>
 
-              <div className="flex gap-3 pt-4">
+              <div className="flex gap-4 pt-6">
                 <button
                   type="submit"
-                  className="flex-1 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg shadow-md transition-colors"
+                  className="flex-1 px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold rounded-xl shadow-2xl transition-all duration-300 transform hover:scale-105"
                 >
                   {productoEditando ? 'Actualizar Producto' : 'Crear Producto'}
                 </button>
                 <button
                   type="button"
                   onClick={cerrarModal}
-                  className="px-6 py-3 bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold rounded-lg transition-colors"
+                  className="px-8 py-4 bg-gradient-to-r from-gray-200 to-gray-300 hover:from-gray-300 hover:to-gray-400 text-gray-700 font-bold rounded-xl transition-all duration-300"
                 >
                   Cancelar
                 </button>

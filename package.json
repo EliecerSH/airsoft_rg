@@ -7,7 +7,12 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "karma start",
+    "test:single": "karma start --single-run",
+    "test:watch": "karma start --auto-watch",
+    "test:headless": "karma start --browsers ChromeHeadless --single-run",
+    "test:debug": "karma start --browsers Chrome --single-run false --auto-watch true"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.14",
@@ -42,14 +47,5 @@
     "karma-webpack": "^5.0.1",
     "style-loader": "^4.0.0",
     "vite": "^7.1.7"
-  },
-  "karma": {
-    "scripts": {
-    "test": "karma start",
-    "test:single": "karma start --single-run",
-    "test:watch": "karma start --auto-watch",
-    "test:headless": "karma start --browsers ChromeHeadless --single-run",
-    "test:debug": "karma start --browsers Chrome --single-run false --auto-watch true"
   }
-}
 }
