@@ -6,12 +6,10 @@ function ListaProductos({ filas = 1, tipo = "todos" }) {
   const productosPorFila = 3;
   const cantidadMostrar = filas * productosPorFila;
 
-  // Filtrar productos según tipo
   const productosFiltrados = productos.filter(
     (p) => tipo === "todos" || p.tipo === tipo
   );
 
-  // Limitar cantidad a mostrar
   const productosMostrar = productosFiltrados.slice(0, cantidadMostrar);
 
   return (

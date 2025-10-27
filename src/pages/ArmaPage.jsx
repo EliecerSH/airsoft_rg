@@ -5,7 +5,7 @@ import { CarritoContext } from "../context/CarritoContext";
 import { useNavigate } from "react-router-dom";
 import ListaProductos from "../component/ListaProducto.jsx";
 
-// Barra de estadísticas mejorada con gradiente suave
+
 function StatBar({ label, value, max = 100 }) {
   const pct = Math.min(100, Math.round((value / max) * 100));
   return (
@@ -47,7 +47,7 @@ export function ArmaPage() {
 
   return (
     <div className="container mx-auto px-6 py-10">
-      {/* Botón volver */}
+
       <Link
         to="/"
         className="inline-block mb-6 text-neutral-700 hover:text-neutral-900 font-medium"
@@ -55,9 +55,8 @@ export function ArmaPage() {
         &larr; Volver al catálogo
       </Link>
 
-      {/* Sección principal */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-        {/* Imagen + precio + botón compra */}
+
         <div className="col-span-1 bg-white shadow-lg rounded-2xl p-5 flex flex-col items-center">
           <img
             src={producto.img}
@@ -89,14 +88,13 @@ export function ArmaPage() {
           </div>
         </div>
 
-        {/* Descripción y estadísticas */}
+
         <div className="col-span-2 bg-white shadow-lg rounded-2xl p-8">
           <h1 className="text-4xl font-extrabold text-neutral-800 mb-4">
             {producto.nombre}
           </h1>
           <p className="text-gray-700 leading-relaxed mb-6">{producto.desc}</p>
 
-          {/* Sección de estadísticas */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8">
             <div>
               <StatBar label="Daño" value={producto.estadisticas.daño} />
@@ -114,7 +112,7 @@ export function ArmaPage() {
             </div>
           </div>
 
-          {/* Ventajas / Desventajas */}
+
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 mb-8">
             <div>
               <h2 className="font-bold text-xl text-green-600 mb-3">Ventajas</h2>
@@ -135,7 +133,7 @@ export function ArmaPage() {
             </div>
           </div>
 
-          {/* Uso recomendado y notas */}
+
           <div className="border-t border-gray-200 pt-6">
             <h2 className="font-semibold text-xl mb-2 text-neutral-800">
               Uso recomendado

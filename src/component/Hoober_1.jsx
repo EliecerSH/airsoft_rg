@@ -23,7 +23,6 @@ function Hoober_1() {
 
   return (
     <div className="bg-white shadow-md min-h-screen flex flex-col">
-      {/* Header */}
       <div className="container mx-auto flex justify-between items-center py-3 px-4">
         <Link to="/home" className="flex items-center space-x-2">
           <img src={icon_1} alt="logo" className="w-12 h-12" />

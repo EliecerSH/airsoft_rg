@@ -5,7 +5,7 @@ export const UserContext = createContext();
 export function UserProvider({ children }) {
   const [user, setUser] = useState(null);
 
-  // ✅ Cargar usuario guardado al inicio
+  //funcion para la cargar usuario guardado al inicio
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     if (storedUser) setUser(JSON.parse(storedUser));

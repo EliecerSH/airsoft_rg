@@ -5,7 +5,7 @@ function BoletaCarrito() {
   const { carrito } = useContext(CarritoContext);
 
   const subtotal = carrito.reduce((acc, item) => acc + item.precio * item.cantidad, 0);
-  const iva = subtotal * 0.19; // 19% IVA (puedes quitarlo si no lo necesitas)
+  const iva = subtotal * 0.19;
   const total = subtotal + iva;
 
   if (carrito.length === 0) {
@@ -52,7 +52,7 @@ function BoletaCarrito() {
       </div>
 
       <p className="text-center text-xs text-gray-500 mt-4">
-        Gracias por tu compra 💚
+        Gracias por tu compra
       </p>
     </div>
   );

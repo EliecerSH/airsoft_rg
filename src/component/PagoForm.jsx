@@ -26,9 +26,9 @@ export default function PagoForm() {
       return;
     }
 
-    // Crear el objeto de compra
+    // funcin para generarla compra
     const compra = {
-      id: Date.now(), // ID único basado en la fecha
+      id: Date.now(),
       comprador: {
         nombre: form.nombre,
         correo: form.correo,

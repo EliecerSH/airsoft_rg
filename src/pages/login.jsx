@@ -15,16 +15,16 @@ function Login() {
 
     const storedUser = JSON.parse(localStorage.getItem("user_registrado"));
     if (!storedUser) {
-      setMensaje("⚠️ No hay usuarios registrados");
+      setMensaje(" No hay usuarios registrados");
       return;
     }
 
     if (storedUser.email === email && storedUser.password === password) {
       login(storedUser);
-      setMensaje("✅ Inicio de sesión exitoso");
+      setMensaje(" Inicio de sesión exitoso");
       navigate("/home");
     } else {
-      setMensaje("❌ Credenciales incorrectas");
+      setMensaje(" Credenciales incorrectas");
     }
   };
 

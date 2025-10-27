@@ -14,10 +14,10 @@ function LoginAdmin() {
 
 
     if (email === "admin@gmail.com" && password === "123456") {
-      setMensaje("✅ Inicio de sesión exitoso");
+      setMensaje(" Inicio de sesión exitoso");
       navigate("/homeAdmin");
     } else {
-      setMensaje("❌ Credenciales incorrectas");
+      setMensaje(" Credenciales incorrectas");
     }
   };
 
