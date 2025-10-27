@@ -24,7 +24,7 @@ function Registro() {
     e.preventDefault();
 
     if (form.password !== form.confirmPassword) {
-      setMensaje("⚠️ Las contraseñas no coinciden");
+      setMensaje(" Las contraseñas no coinciden");
       return;
     }
 
@@ -38,7 +38,7 @@ function Registro() {
     };
 
     localStorage.setItem("user_registrado", JSON.stringify(nuevoUsuario));
-    setMensaje("✅ Registro exitoso");
+    setMensaje(" Registro exitoso");
     setTimeout(() => navigate("/login"), 1200);
   };
 
