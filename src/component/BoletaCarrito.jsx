@@ -1,11 +1,33 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { CarritoContext } from "../context/CarritoContext";
+import { obtenerProductosCompletos } from "../service/productosService";
 
 function BoletaCarrito() {
   const { carrito } = useContext(CarritoContext);
+  const [productos, setProductos] = useState([]);
 
-  const subtotal = carrito.reduce((acc, item) => acc + item.precio * item.cantidad, 0);
-  const iva = subtotal * 0.19; // 19% IVA (puedes quitarlo si no lo necesitas)
+  // Traer productos completos
+  useEffect(() => {
+    const fetchProductos = async () => {
+      const data = await obtenerProductosCompletos();
+      setProductos(data);
+    };
+    fetchProductos();
+  }, []);
+
+  // Combinar carrito con datos del producto
+  const carritoConDatos = carrito.map((item) => {
+    const producto = productos.find((p) => p.id === item.id_producto);
+    return {
+      ...item,
+      nombre: producto?.nombre || `Producto #${item.id_producto}`,
+      precio: producto?.precio || 0,
+    };
+  });
+
+  // Calcular subtotal, IVA y total
+  const subtotal = carritoConDatos.reduce((acc, item) => acc + item.precio * item.cantidad, 0);
+  const iva = subtotal * 0.19;
   const total = subtotal + iva;
 
   if (carrito.length === 0) {
@@ -23,8 +45,8 @@ function BoletaCarrito() {
       </h2>
 
       <div className="divide-y divide-dashed divide-gray-300 mb-4">
-        {carrito.map((item) => (
-          <div key={item.id} className="flex justify-between py-2 text-gray-700">
+        {carritoConDatos.map((item) => (
+          <div key={item.id_detalle} className="flex justify-between py-2 text-gray-700">
             <div>
               <p className="font-medium">{item.nombre}</p>
               <p className="text-sm text-gray-500">x{item.cantidad}</p>

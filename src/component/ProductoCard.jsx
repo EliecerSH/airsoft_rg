@@ -4,7 +4,7 @@ import { CarritoContext } from "../context/CarritoContext";
 
 export default function ProductoCard({ producto }) {
   const navigate = useNavigate();
-  const { agregarCarrito } = useContext(CarritoContext);
+  const { agregarAlCarrito } = useContext(CarritoContext);
 
   return (
     <div
@@ -20,25 +20,31 @@ export default function ProductoCard({ producto }) {
       </div>
       <div className="p-5">
         <h3 className="text-lg font-semibold truncate">{producto.nombre}</h3>
-        <p className="text-sm text-gray-500 mt-2 h-16 overflow-hidden">{producto.desc}</p>
+
+        {/* Descripción corregida */}
+        <p className="text-sm text-gray-500 mt-2 h-16 overflow-hidden">
+          {producto.descripcion}
+        </p>
+
         <p className="mt-4 text-center text-xl font-bold text-gray-800">
           ${producto.precio.toLocaleString()} CLP
         </p>
+
         <button
           onClick={(e) => {
             e.stopPropagation();
-            agregarCarrito(producto);
+            agregarAlCarrito(producto);
           }}
           className="mt-5 w-full bg-neutral-800 hover:bg-red-900 text-white font-medium py-2 rounded-xl transition"
         >
           Agregar al carrito
         </button>
+
         <button
           onClick={(e) => {
             e.stopPropagation();
-            agregarCarrito(producto);
-            navigate(`/pago`)
-
+            agregarAlCarrito(producto);
+            navigate(`/pago`);
           }}
           className="mt-2 w-full bg-neutral-800 hover:bg-red-900 text-white font-medium py-2 rounded-xl transition"
         >
@@ -48,3 +54,4 @@ export default function ProductoCard({ producto }) {
     </div>
   );
 }
+

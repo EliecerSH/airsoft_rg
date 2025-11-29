@@ -1,7 +1,9 @@
 import React, { useState, useContext } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
+import { getClientes } from "../service/ClientesService";
 import icon01 from "../assets/icon_01.png";
+import Registro from "./Registro";
 
 function Login() {
   const { login } = useContext(UserContext);
@@ -10,21 +12,35 @@ function Login() {
   const [password, setPassword] = useState("");
   const [mensaje, setMensaje] = useState("");
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
 
-    const storedUser = JSON.parse(localStorage.getItem("user_registrado"));
-    if (!storedUser) {
-      setMensaje("⚠️ No hay usuarios registrados");
-      return;
-    }
+    try {
+      const clientes = await getClientes();
 
-    if (storedUser.email === email && storedUser.password === password) {
-      login(storedUser);
+      // BUSCAR USUARIO POR CORREO
+      const usuario = clientes.find((c) => c.correo === email);
+
+      if (!usuario) {
+        setMensaje("❌ Correo no registrado");
+        return;
+      }
+
+      // VERIFICAR PASSWORD
+      if (usuario.clave !== password) {
+        setMensaje("❌ Contraseña incorrecta");
+        return;
+      }
+
+      // LOGIN EXITOSO
+      login(usuario); // lo guardas en contexto
       setMensaje("✅ Inicio de sesión exitoso");
+
       navigate("/home");
-    } else {
-      setMensaje("❌ Credenciales incorrectas");
+
+    } catch (err) {
+      console.error(err);
+      setMensaje("⚠️ Error conectando con el servidor");
     }
   };
 
@@ -87,4 +103,5 @@ function Login() {
 }
 
 export default Login;
+
 

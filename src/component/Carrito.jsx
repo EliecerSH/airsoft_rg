@@ -1,12 +1,35 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { CarritoContext } from "../context/CarritoContext";
+import { obtenerProductosCompletos } from "../service/productosService";
 
 function Carrito() {
   const { carrito, eliminarDelCarrito, vaciarCarrito } = useContext(CarritoContext);
+  const [productos, setProductos] = useState([]);
   const navigate = useNavigate();
 
-  const total = carrito.reduce((acc, item) => acc + item.precio * item.cantidad, 0);
+  // Cargar productos completos del product service
+  useEffect(() => {
+    const fetchProductos = async () => {
+      const data = await obtenerProductosCompletos();
+      setProductos(data);
+    };
+    fetchProductos();
+  }, []);
+
+  // Combinar carrito con datos del producto
+  const carritoConDatos = carrito.map((item) => {
+    const producto = productos.find((p) => p.id === item.id_producto);
+    return {
+      ...item,
+      nombre: producto?.nombre,
+      precio: producto?.precio,
+      img: producto?.img,
+    };
+  });
+
+  // Calcular total
+  const total = carritoConDatos.reduce((acc, item) => acc + ((item.precio || 0) * item.cantidad), 0);
 
   return (
     <div className="mt-10 p-6 rounded-2xl shadow-xl bg-gradient-to-b from-gray-50 to-gray-100 max-w-3xl mx-auto">
@@ -17,26 +40,34 @@ function Carrito() {
       ) : (
         <>
           <ul className="space-y-4">
-            {carrito.map((item) => (
+            {carritoConDatos.map((item) => (
               <li
-                key={item.id}
+                key={item.id_detalle}
                 className="flex items-center justify-between bg-white shadow-md rounded-xl p-4 hover:shadow-lg transition-shadow"
               >
                 <div className="flex items-center space-x-4">
-                  <img
-                    src={item.img}
-                    alt={item.nombre}
-                    className="w-16 h-16 object-cover rounded-lg"
-                  />
+                  {item.img ? (
+                    <img
+                      src={item.img}
+                      alt={item.nombre || `Producto #${item.id_producto}`}
+                      className="w-16 h-16 object-cover rounded-lg"
+                    />
+                  ) : (
+                    <div className="w-16 h-16 bg-gray-200 rounded-lg flex items-center justify-center text-gray-500">
+                      Img
+                    </div>
+                  )}
                   <div>
-                    <p className="font-semibold text-gray-800">{item.nombre}</p>
+                    <p className="font-semibold text-gray-800">
+                      {item.nombre || `Producto #${item.id_producto}`}
+                    </p>
                     <p className="text-sm text-gray-500">
-                      {item.cantidad} x ${item.precio.toLocaleString()} CLP
+                      {item.cantidad} x ${item.precio ? item.precio.toLocaleString() : "N/A"} CLP
                     </p>
                   </div>
                 </div>
                 <button
-                  onClick={() => eliminarDelCarrito(item.id)}
+                  onClick={() => eliminarDelCarrito(item.id_detalle)}
                   className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition-colors"
                 >
                   Eliminar
@@ -73,6 +104,8 @@ function Carrito() {
 }
 
 export default Carrito;
+
+
 
 
 

@@ -19,21 +19,26 @@ function Hoober_1() {
   const navigate = useNavigate();
   const { carrito } = useContext(CarritoContext);
   const { user, logout } = useContext(UserContext);
+
   const totalItems = carrito.reduce((acc, item) => acc + item.cantidad, 0);
 
   return (
     <div className="bg-white shadow-md min-h-screen flex flex-col">
-      {/* Header */}
-      <div className="container mx-auto flex justify-between items-center py-3 px-4">
+      {/* HEADER RESPONSIVE */}
+      <header className="container mx-auto flex flex-col sm:flex-row justify-between items-center py-3 px-4 gap-4">
+        
+        {/* Logo */}
         <Link to="/home" className="flex items-center space-x-2">
           <img src={icon_1} alt="logo" className="w-12 h-12" />
-          <h1 className="text-2xl font-bold tracking-wide">
+          <h1 className="text-2xl font-bold tracking-wide text-center sm:text-left">
             Airsoft Rock Galactic
           </h1>
         </Link>
 
-        <div className="flex items-center space-x-3">
+        {/* Right controls */}
+        <div className="flex items-center gap-3">
           
+          {/* Carrito */}
           <button onClick={() => navigate("/carrito")} className="relative">
             <img src={icon_car} alt="carrito" width="30px" />
             {totalItems > 0 && (
@@ -43,37 +48,41 @@ function Hoober_1() {
             )}
           </button>
 
+          {/* Usuario */}
           {user ? (
             <div className="flex items-center space-x-2">
-              <span className="font-semibold text-gray-800">{user.nombre}</span>
+              <span className="font-semibold text-gray-800 hidden sm:block">
+                {user.nombre}
+              </span>
               <button
                 onClick={logout}
                 className="bg-red-600 hover:bg-red-800 text-white px-3 py-1 rounded-lg text-sm transition"
               >
-                Cerrar sesión
+                Salir
               </button>
             </div>
           ) : (
             <>
               <button
                 onClick={() => navigate("/login")}
-                className="bg-neutral-700 hover:bg-neutral-900 text-white px-4 py-2 rounded-lg transition"
+                className="bg-neutral-700 hover:bg-neutral-900 text-white px-4 py-2 rounded-lg transition text-sm"
               >
-                Iniciar sesión
+                Iniciar
               </button>
               <button
                 onClick={() => navigate("/registro")}
-                className="bg-neutral-700 hover:bg-neutral-900 text-white px-4 py-2 rounded-lg transition"
+                className="bg-neutral-700 hover:bg-neutral-900 text-white px-4 py-2 rounded-lg transition text-sm sm:block"
               >
                 Registrarse
               </button>
             </>
           )}
         </div>
-      </div>
+      </header>
 
-      <nav className="bg-gray-200">
-        <ul className="flex justify-center space-x-8 py-2 text-sm font-medium uppercase tracking-wide">
+      {/* NAV RESPONSIVE (scroll en mobile) */}
+      <nav className="bg-gray-200 w-full overflow-x-auto">
+        <ul className="flex justify-start sm:justify-center space-x-6 py-2 px-4 text-sm font-medium uppercase tracking-wide whitespace-nowrap">
           <li>
             <Link to="/armas" className="hover:text-neutral-700">
               Armas
@@ -90,7 +99,8 @@ function Hoober_1() {
         </ul>
       </nav>
 
-      <div className="flex-grow">
+      {/* Rutas */}
+      <main className="flex-grow">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/home" element={<Home />} />
@@ -104,10 +114,11 @@ function Hoober_1() {
           <Route path="/arma/:id" element={<ArmaPage />} />
           <Route path="/pago" element={<PagoPage />} />
         </Routes>
-      </div>
+      </main>
     </div>
   );
 }
 
 export default Hoober_1;
+
 

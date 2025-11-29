@@ -1,23 +1,28 @@
-import React from "react";
-import { productos } from "../data/Productos.js";
+import React, { useEffect, useState } from "react";
+import { obtenerProductosCompletos } from "../service/productosService.jsx";
 import ProductoCard from "../component/ProductoCard.jsx";
 
-function ListaProductos({ filas = 1, tipo = "todos" }) {
+function ListaProductos({ filas = 1, categoria = "todos" }) {
+  const [productos, setProductos] = useState([]);
+
   const productosPorFila = 3;
   const cantidadMostrar = filas * productosPorFila;
 
-  // Filtrar productos según tipo
+  useEffect(() => {
+    obtenerProductosCompletos().then(setProductos);
+  }, []);
+
+  // ⬇ Cambiamos tipo → categoria
   const productosFiltrados = productos.filter(
-    (p) => tipo === "todos" || p.tipo === tipo
+    (p) => categoria === "todos" || p.categoria === categoria
   );
 
-  // Limitar cantidad a mostrar
   const productosMostrar = productosFiltrados.slice(0, cantidadMostrar);
 
   return (
     <div className="p-6">
       <h2 className="text-2xl font-bold text-center mb-8 border-b-4 border-neutral-700 inline-block pb-2">
-        {tipo === "todos" ? "Productos" : tipo}
+        {categoria === "todos" ? "Productos" : categoria}
       </h2>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
@@ -30,5 +35,7 @@ function ListaProductos({ filas = 1, tipo = "todos" }) {
 }
 
 export default ListaProductos;
+
+
 
 

@@ -2,9 +2,10 @@ import React from "react";
 
 export default function RecentOrders({ pedidos }) {
   return (
-    <div className="bg-white rounded-lg shadow-sm p-6">
-      <h3 className="font-semibold mb-4">Pedidos Recientes</h3>
-      <table className="w-full text-left">
+    <section id="pedidos" className="bg-white rounded-xl shadow p-6 border">
+      <h3 className="text-lg font-semibold mb-4">Pedidos Recientes</h3>
+
+      <table className="w-full text-left border-collapse">
         <thead className="text-sm text-gray-500 border-b">
           <tr>
             <th className="py-2">ID</th>
@@ -13,9 +14,10 @@ export default function RecentOrders({ pedidos }) {
             <th className="py-2">Estado</th>
           </tr>
         </thead>
+
         <tbody className="text-sm text-gray-700">
           {pedidos.map((p) => (
-            <tr key={p.id} className="border-b">
+            <tr key={p.id} className="border-b hover:bg-gray-50">
               <td className="py-3">{p.id}</td>
               <td className="py-3">{p.cliente}</td>
               <td className="py-3">${p.total.toLocaleString()}</td>
@@ -36,6 +38,7 @@ export default function RecentOrders({ pedidos }) {
           ))}
         </tbody>
       </table>
-    </div>
+    </section>
   );
 }
+

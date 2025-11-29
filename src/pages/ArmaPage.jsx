@@ -1,11 +1,10 @@
-import React, { useContext } from "react";
-import { useParams, Link } from "react-router-dom";
-import { productos } from "../data/Productos.js";
+import React, { useEffect, useState, useContext } from "react";
+import { useParams, Link, useNavigate } from "react-router-dom";
+import { obtenerProductosCompletos } from "../service/productosService";
 import { CarritoContext } from "../context/CarritoContext";
-import { useNavigate } from "react-router-dom";
 import ListaProductos from "../component/ListaProducto.jsx";
 
-// Barra de estadísticas mejorada con gradiente suave
+// Componente de barra de estadísticas
 function StatBar({ label, value, max = 100 }) {
   const pct = Math.min(100, Math.round((value / max) * 100));
   return (
@@ -30,9 +29,18 @@ function StatBar({ label, value, max = 100 }) {
 
 export function ArmaPage() {
   const { id } = useParams();
-  const producto = productos.find((p) => String(p.id) === String(id));
+  const [producto, setProducto] = useState(null);
   const { agregarCarrito } = useContext(CarritoContext);
   const navigate = useNavigate();
+  const { agregarAlCarrito } = useContext(CarritoContext);
+  
+
+  useEffect(() => {
+    obtenerProductosCompletos().then((productos) => {
+      const p = productos.find((prod) => String(prod.id) === String(id));
+      setProducto(p);
+    });
+  }, [id]);
 
   if (!producto) {
     return (
@@ -47,7 +55,6 @@ export function ArmaPage() {
 
   return (
     <div className="container mx-auto px-6 py-10">
-      {/* Botón volver */}
       <Link
         to="/"
         className="inline-block mb-6 text-neutral-700 hover:text-neutral-900 font-medium"
@@ -55,9 +62,8 @@ export function ArmaPage() {
         &larr; Volver al catálogo
       </Link>
 
-      {/* Sección principal */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-        {/* Imagen + precio + botón compra */}
+        {/* Imagen + precio + botones */}
         <div className="col-span-1 bg-white shadow-lg rounded-2xl p-5 flex flex-col items-center">
           <img
             src={producto.img}
@@ -68,49 +74,42 @@ export function ArmaPage() {
             ${producto.precio.toLocaleString()} CLP
           </div>
           <button
-            onClick={() => {agregarCarrito(producto); 
-                            navigate("/pago")}
-            }
+            onClick={() => { agregarAlCarrito(producto); navigate("/pago"); }}
             className="w-full mt-1.5 bg-neutral-800 hover:bg-neutral-900 text-white py-2.5 rounded-lg text-lg font-medium transition"
           >
             Comprar
           </button>
           <button
-            onClick={() => agregarCarrito(producto)}
+            onClick={() => agregarAlCarrito(producto)}
             className="w-full mt-1.5 bg-neutral-800 hover:bg-neutral-900 text-white py-2.5 rounded-lg text-lg font-medium transition"
           >
             Agregar al carrito
           </button>
           <div className="mt-3 text-gray-500 text-sm">
             Stock disponible:{" "}
-            <span className="font-semibold text-gray-800">
-              {producto.cantidad}
-            </span>
+            <span className="font-semibold text-gray-800">{producto.stock}</span>
+          </div>
+          <div className="mt-1 text-gray-600 text-sm">
+            Categoría: {producto.categoriaNombre}
           </div>
         </div>
 
         {/* Descripción y estadísticas */}
         <div className="col-span-2 bg-white shadow-lg rounded-2xl p-8">
-          <h1 className="text-4xl font-extrabold text-neutral-800 mb-4">
-            {producto.nombre}
-          </h1>
-          <p className="text-gray-700 leading-relaxed mb-6">{producto.desc}</p>
+          <h1 className="text-4xl font-extrabold text-neutral-800 mb-4">{producto.nombre}</h1>
+          <p className="text-gray-700 leading-relaxed mb-6">{producto.descripcion}</p>
 
-          {/* Sección de estadísticas */}
+          {/* Estadísticas */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8">
             <div>
-              <StatBar label="Daño" value={producto.estadisticas.daño} />
+              <StatBar label="Daño" value={producto.estadisticas.dano} />
               <StatBar label="Alcance" value={producto.estadisticas.alcance} />
               <StatBar label="Cadencia" value={producto.estadisticas.cadencia} />
             </div>
             <div>
-              <StatBar label="Precisión" value={producto.estadisticas.precision} />
+              <StatBar label="Precisión" value={producto.estadisticas.presicion} />
               <StatBar label="Movilidad" value={producto.estadisticas.movilidad} />
-              <StatBar
-                label="Capacidad"
-                value={producto.estadisticas.capacidad || 0}
-                max={200}
-              />
+              <StatBar label="Capacidad" value={producto.estadisticas.capacidad} max={200} />
             </div>
           </div>
 
@@ -119,42 +118,32 @@ export function ArmaPage() {
             <div>
               <h2 className="font-bold text-xl text-green-600 mb-3">Ventajas</h2>
               <ul className="list-disc list-inside space-y-1 text-green-700">
-                {producto.ventajas.map((v, i) => (
-                  <li key={i}>{v}</li>
-                ))}
+                {producto.ventajas.map((v, i) => <li key={i}>{v}</li>)}
               </ul>
             </div>
-
             <div>
               <h2 className="font-bold text-xl text-red-600 mb-3">Desventajas</h2>
               <ul className="list-disc list-inside space-y-1 text-red-700">
-                {producto.desventajas.map((d, i) => (
-                  <li key={i}>{d}</li>
-                ))}
+                {producto.desventajas.map((d, i) => <li key={i}>{d}</li>)}
               </ul>
             </div>
           </div>
 
           {/* Uso recomendado y notas */}
           <div className="border-t border-gray-200 pt-6">
-            <h2 className="font-semibold text-xl mb-2 text-neutral-800">
-              Uso recomendado
-            </h2>
+            <h2 className="font-semibold text-xl mb-2 text-neutral-800">Uso recomendado</h2>
             <p className="text-gray-700 mb-6">{producto.uso_recomendado}</p>
 
-            <h2 className="font-semibold text-xl mb-2 text-neutral-800">
-              Notas técnicas
-            </h2>
+            <h2 className="font-semibold text-xl mb-2 text-neutral-800">Notas técnicas</h2>
             <p className="text-gray-600">{producto.notas}</p>
           </div>
         </div>
       </div>
-      <div>
-        <ListaProductos filas={1} tipo={producto.tipo} />
+
+      <div className="mt-10">
+        <ListaProductos filas={1} tipo={producto.categoriaNombre} />
         <ListaProductos filas={1} tipo="todos" />
       </div>
     </div>
   );
 }
-
-

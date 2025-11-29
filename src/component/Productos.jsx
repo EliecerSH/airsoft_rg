@@ -1,13 +1,25 @@
-import React, { useState } from "react";
-import { productos } from "../data/Productos.js";
+import React, { useEffect, useState } from "react";
+import { obtenerProductosCompletos } from "../service/productosService";
 import ProductoCard from "../component/ProductoCard";
 
 function Productos() {
+  const [productos, setProductos] = useState([]);
   const [search, setSearch] = useState("");
-  const [filtroTipo, setFiltroTipo] = useState("todos");
+  const [filtroCategoria, setFiltroCategoria] = useState("todos");
   const [filtroPrecio, setFiltroPrecio] = useState("todos");
 
-  const tipos = ["todos", ...new Set(productos.map((p) => p.tipo))];
+  useEffect(() => {
+    obtenerProductosCompletos().then(setProductos);
+  }, []);
+
+  // Crear lista de categorías únicas, filtrando undefined o null
+  const categorias = [
+    "todos",
+    ...Array.from(
+      new Set(productos.map((p) => p.categoriaNombre).filter(Boolean))
+    ),
+  ];
+
   const precios = [
     { label: "Todos", value: "todos" },
     { label: "< $80.000", value: "menor80" },
@@ -19,13 +31,17 @@ function Productos() {
     const coincideBusqueda = prod.nombre
       .toLowerCase()
       .includes(search.toLowerCase());
-    const coincideTipo = filtroTipo === "todos" || prod.tipo === filtroTipo;
+
+    const coincideCategoria =
+      filtroCategoria === "todos" || prod.categoriaNombre === filtroCategoria;
+
     let coincidePrecio = true;
     if (filtroPrecio === "menor80") coincidePrecio = prod.precio < 80000;
     if (filtroPrecio === "entre80y150")
       coincidePrecio = prod.precio >= 80000 && prod.precio <= 150000;
     if (filtroPrecio === "mayor150") coincidePrecio = prod.precio > 150000;
-    return coincideBusqueda && coincideTipo && coincidePrecio;
+
+    return coincideBusqueda && coincideCategoria && coincidePrecio;
   });
 
   return (
@@ -38,18 +54,20 @@ function Productos() {
           onChange={(e) => setSearch(e.target.value)}
           className="border border-gray-300 rounded-lg p-2 flex-1"
         />
+
         <div className="flex gap-2 flex-wrap">
           <select
-            value={filtroTipo}
-            onChange={(e) => setFiltroTipo(e.target.value)}
+            value={filtroCategoria}
+            onChange={(e) => setFiltroCategoria(e.target.value)}
             className="border border-gray-300 rounded-lg p-2 bg-white cursor-pointer"
           >
-            {tipos.map((tipo) => (
-              <option key={tipo} value={tipo}>
-                {tipo.charAt(0).toUpperCase() + tipo.slice(1)}
+            {categorias.map((cat) => (
+              <option key={cat} value={cat}>
+                {cat ? cat.charAt(0).toUpperCase() + cat.slice(1) : ""}
               </option>
             ))}
           </select>
+
           <select
             value={filtroPrecio}
             onChange={(e) => setFiltroPrecio(e.target.value)}
@@ -74,6 +92,8 @@ function Productos() {
 }
 
 export default Productos;
+
+
 
 
 
