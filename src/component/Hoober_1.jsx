@@ -9,7 +9,7 @@ import ArmasPage from "../pages/ArmasPage";
 import CarritoPage from "../pages/CarritoPage";
 import Login from "../pages/login";
 import Registro from "../pages/Registro";
-import LoginAdmin from "../pages/loginAdmin";
+import LoginAdmin from "../pages/LoginAdmin";
 import AdminPage from "../pages/AdminPage";
 import Productos from "./Productos";
 import { ArmaPage } from "../pages/ArmaPage";
